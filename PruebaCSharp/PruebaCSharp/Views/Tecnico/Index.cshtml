@@ -1,0 +1,115 @@
+﻿@model IEnumerable<PruebaCSharp.Models.TecnicoModel.TecnicoSucursal>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.0.0.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+<h2>Técnicos</h2>
+<div class="container">
+    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Nuevo Técnico</a>
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    <h3 class="model-title">Nuevo Técnico</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="myForm">
+                        @Html.DropDownList("sucursal",ViewBag.message as SelectList,"Sucursal")
+                        <input type="text" class="form-control" name="tecnico" placeholder="Técnico" required autofocus>
+                        @Html.DropDownList("elemento",ViewBag.datos as SelectList,"elemento")
+                        <input type="text" class="form-control" name="total" placeholder="Total Elementos" required autofocus>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                    <input type="reset" value="Submit" class="btn btn-success" id="btnSubmit" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<p>
+    @*Html.ActionLink("Nuevo Técnico", "Create")*@
+</p>
+<table>
+    <tr class="row">
+        <th>
+            @*Html.DisplayNameFor(model => model.identificacion)*@Identificacion
+        </th>
+        <th>
+            @*Html.DisplayNameFor(model => model.codigo)*@Código
+        </th>
+        <th>
+            @*Html.DisplayNameFor(model => model.tecnico)*@Tecnico
+        </th>
+        <th>
+            @*Html.DisplayNameFor(model => model.sucursal)*@Sucursal
+        </th>
+        <th>Elementos</th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr class="row">
+        <td>
+            @Html.DisplayFor(modelItem => item.identificacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.codigo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tecnico)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sucursal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.total_elementos)
+        </td>
+        <!--
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+        -->
+
+    </tr>
+}
+
+    <script>
+
+    $(document).ready(function () {
+
+
+        $("#btnSubmit").click(function () {
+
+            var myformdata = $("#myForm").serialize();
+
+            $.ajax({
+
+                type: "POST",
+                url:"/Tecnico/Index",
+                data: myformdata,
+                success: function () {
+                    $("#myModal").modal("hide");
+                  
+                }
+                
+            })
+        })
+
+    })
+
+   
+</script>
+
+</table>

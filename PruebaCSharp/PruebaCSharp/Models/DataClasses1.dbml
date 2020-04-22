@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="db_gestion_franca" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=DESARROLLO_PC\ALCAPARROS;Initial Catalog=db_gestion_franca;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="db_gestion_francaConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.tbl_gf_elementos" Member="tbl_gf_elementos">
+    <Type Name="tbl_gf_elemento">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="cod_elemento" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="nom_elemento" Type="System.String" DbType="VarChar(750)" CanBeNull="true" />
+      <Association Name="tbl_gf_elemento_tbl_gf_elementos_tecnico" Member="tbl_gf_elementos_tecnicos" ThisKey="id" OtherKey="id_elemento" Type="tbl_gf_elementos_tecnico" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_gf_tecnicos" Member="tbl_gf_tecnicos">
+    <Type Name="tbl_gf_tecnico">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="cod_tecnico" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="nom_tecnico" Type="System.String" DbType="VarChar(750)" CanBeNull="true" />
+      <Column Name="id_sucursal" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="tbl_gf_tecnico_tbl_gf_elementos_tecnico" Member="tbl_gf_elementos_tecnicos" ThisKey="id" OtherKey="id_tecnico" Type="tbl_gf_elementos_tecnico" />
+      <Association Name="tbl_gf_sucursale_tbl_gf_tecnico" Member="tbl_gf_sucursale" ThisKey="id_sucursal" OtherKey="id" Type="tbl_gf_sucursale" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_gf_elementos_tecnico" Member="tbl_gf_elementos_tecnicos">
+    <Type Name="tbl_gf_elementos_tecnico">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_tecnico" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="id_elemento" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="cantidad_elemento" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="tbl_gf_elemento_tbl_gf_elementos_tecnico" Member="tbl_gf_elemento" ThisKey="id_elemento" OtherKey="id" Type="tbl_gf_elemento" IsForeignKey="true" />
+      <Association Name="tbl_gf_tecnico_tbl_gf_elementos_tecnico" Member="tbl_gf_tecnico" ThisKey="id_tecnico" OtherKey="id" Type="tbl_gf_tecnico" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_gf_sucursales" Member="tbl_gf_sucursales">
+    <Type Name="tbl_gf_sucursale">
+      <Column Name="id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="cod_sucursal" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="nom_sucursal" Type="System.String" DbType="VarChar(250)" CanBeNull="true" />
+      <Association Name="tbl_gf_sucursale_tbl_gf_tecnico" Member="tbl_gf_tecnicos" ThisKey="id" OtherKey="id_sucursal" Type="tbl_gf_tecnico" />
+    </Type>
+  </Table>
+  <Table Name="dbo.vw_gf_elementos_por_tecnico" Member="vw_gf_elementos_por_tecnicos">
+    <Type Name="vw_gf_elementos_por_tecnico">
+      <Column Name="total" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="id_tecnico" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Function Name="dbo.sp_gf_listar_tecnicos" Method="sp_gf_listar_tecnicos">
+    <ElementType Name="sp_gf_listar_tecnicosResult">
+      <Column Name="identificacion" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="codigo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="tecnico" Type="System.String" DbType="VarChar(750)" CanBeNull="true" />
+      <Column Name="sucursal" Type="System.String" DbType="VarChar(250)" CanBeNull="true" />
+      <Column Name="total" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+</Database>
